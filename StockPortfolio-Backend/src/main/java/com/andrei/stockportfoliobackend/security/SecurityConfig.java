@@ -38,43 +38,36 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // 1. Activam CORS global cu configuratia de mai jos
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-                // 2. Dezactivam CSRF (nu e nevoie la JWT)
                 .csrf(csrf -> csrf.disable())
 
-                // 3. Fara sesiuni (Stateless)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                // 4. Reguli de acces
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Login/Register publice
-                        .requestMatchers("/error").permitAll()       // Erorile standard publice
-                        .anyRequest().authenticated()                // Restul private
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/error").permitAll()
+                        .anyRequest().authenticated()
                 );
 
-        // 5. Adaugam filtrul JWT
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-    // --- CONFIGURAREA CORS GLOBALA ---
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Permitem Frontend-ul (React)
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "https://stock-portfolio-tracker-plum.vercel.app/"
+        ));
 
-        // Permitem metodele HTTP uzuale
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        // Permitem header-ele (inclusiv Authorization pentru Token)
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
 
-        // Permitem trimiterea de credentials (daca e cazul, dar bun de avut)
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
