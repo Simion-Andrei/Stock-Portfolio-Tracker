@@ -14,7 +14,9 @@ import java.util.Date;
 @Component
 public class JwtUtils {
     // 256-bit Hex secret key for HS256 algorithm
-    private static final String SECRET = "8d3a84fed1896f4a7f104c34a9ee9c2eeb30cee2c17f1e87b17aa24d4e542ed0";
+    private static final String JWT_SECRET = Dotenv.configure()
+            .ignoreIfMissing()
+            .load();
 
     // Token validity duration (24 Hours)
     private static final int EXPIRATION_MS = 86400000;
@@ -36,7 +38,7 @@ public class JwtUtils {
     }
 
     private Key key() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET));
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(JWT_SECRET));
     }
 
     /**

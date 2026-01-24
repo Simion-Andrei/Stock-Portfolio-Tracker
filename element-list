@@ -1,0 +1,7 @@
+com.andrei.stockportfoliobackend
+com.andrei.stockportfoliobackend.controller
+com.andrei.stockportfoliobackend.dto
+com.andrei.stockportfoliobackend.entity
+com.andrei.stockportfoliobackend.repository
+com.andrei.stockportfoliobackend.security
+com.andrei.stockportfoliobackend.service
