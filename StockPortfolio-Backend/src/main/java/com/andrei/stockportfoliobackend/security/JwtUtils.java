@@ -17,7 +17,8 @@ public class JwtUtils {
     // 256-bit Hex secret key for HS256 algorithm
     private static final String JWT_SECRET = Dotenv.configure()
             .ignoreIfMissing()
-            .load();
+            .load()
+            .get("JWT_SECRET");
 
     // Token validity duration (24 Hours)
     private static final int EXPIRATION_MS = 86400000;
