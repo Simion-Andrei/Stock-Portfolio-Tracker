@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
+import io.github.cdimascio.dotenv.Dotenv;
 import java.security.Key;
 import java.util.Date;
 
